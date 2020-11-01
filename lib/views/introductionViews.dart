@@ -1,7 +1,9 @@
 import 'dart:async';
 
-import 'package:babycare_flutter_app/views/widgets/introView.dart';
 import 'package:flutter/material.dart';
+import 'package:babycare_flutter_app/views/widgets/introView.dart';
+
+import '../main.dart';
 
 class IntroductionViews extends StatefulWidget {
   final bool goToLogin;
@@ -77,35 +79,35 @@ class _IntroductionViewsState extends State<IntroductionViews> with SingleTicker
                 children: <Widget>[
 
                   IntroView(
-                    title: "PROFESSIONNELLE",
-                    message: "Retrouvez sur UDA un personnel de santé qualifié pour vos consultations, traitements et conseilles.",
-                    imageLink: 'assets/icons/souscription/medecin.png',
-                    colorBg: Color(0xff63B330),
-                    imageBg: 'assets/icons/souscription/fond1.png'
+                      title: DemoLocalizations.of(context).trans('professionnelle_titre'),
+                      message: DemoLocalizations.of(context).trans('professionnelle'),
+                      imageLink: 'assets/icons/souscription/medecin.png',
+                      colorBg: Color(0xff63B330),
+                      imageBg: 'assets/icons/souscription/fond1.png'
                   ),
 
                   IntroView(
-                    title: "PARTAGE",
-                    message: "Retrouvez sur UDA une grande famille avec qui vous pouvez partager vos connaissances sur la santé.",
-                    imageLink: 'assets/icons/souscription/forum.png',
-                    colorBg: Color(0xff6A368C),
-                    imageBg: 'assets/icons/souscription/fond2.png'
+                      title: DemoLocalizations.of(context).trans('partage_titre'),
+                      message: DemoLocalizations.of(context).trans('partage'),
+                      imageLink: 'assets/icons/souscription/forum.png',
+                      colorBg: Color(0xff6A368C),
+                      imageBg: 'assets/icons/souscription/fond2.png'
                   ),
 
                   IntroView(
-                    title: "FIABILITÉ",
-                    message: "Retrouvez sur UDA  des informations certifiées pour vous assurer un bon suivi médical.",
-                    imageLink: 'assets/icons/souscription/personal-info.png',
-                    colorBg: Color(0xffF07E10),
-                    imageBg: 'assets/icons/souscription/fond3.png'
+                      title: DemoLocalizations.of(context).trans('fiabilite_titre'),
+                      message: DemoLocalizations.of(context).trans('fiabilite'),
+                      imageLink: 'assets/icons/souscription/personal-info.png',
+                      colorBg: Color(0xffF07E10),
+                      imageBg: 'assets/icons/souscription/fond3.png'
                   ),
 
                   IntroView(
-                    title: "EFFICACITÉ",
-                    message: "Retrouvez sur UDA 6 services capitaux pour votre santé et celle de votre famille.",
-                    imageLink: 'assets/icons/souscription/famille.png',
-                    colorBg: Color(0xff68C5D9),
-                    imageBg: 'assets/icons/souscription/fond4.png'
+                      title: DemoLocalizations.of(context).trans('efficacite_titre'),
+                      message: DemoLocalizations.of(context).trans('efficacite'),
+                      imageLink: 'assets/icons/souscription/famille.png',
+                      colorBg: Color(0xff68C5D9),
+                      imageBg: 'assets/icons/souscription/fond4.png'
                   )
 
                 ],),

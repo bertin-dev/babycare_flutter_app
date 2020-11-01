@@ -1,12 +1,21 @@
 
 // Page d'authentification
+import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:babycare_flutter_app/services/authService.dart';
+import 'package:babycare_flutter_app/services/secureStorage.dart';
 import 'package:babycare_flutter_app/views/widgets/form/button.dart';
 import 'package:babycare_flutter_app/views/widgets/form/textField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
 import 'widgets/form/passwordField.dart';
+
+void main(){
+  runApp(Login());
+}
 
 class Login extends StatefulWidget {
   @override
@@ -16,21 +25,14 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _loginFormKey = GlobalKey<FormState>();
-  final _passwordRecoveryFormKey = GlobalKey<FormState>();
 
   TextEditingController _phoneController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
-  TextEditingController _idNumberController = new TextEditingController();
-
-  TextEditingController _phoneDialogController = new TextEditingController();
 
   String userPassword;
   bool _autovalidate = false;
-  bool _autovalidate2 = false;
   bool isChecked = true;
   bool _buttonState = true;
-  bool _button2State = true;
-  String _language = 'default';
 
   @override
   void initState() {
@@ -51,38 +53,16 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    final hv = MediaQuery
-        .of(context)
-        .size
-        .height / 100;
-    final wv = MediaQuery
-        .of(context)
-        .size
-        .width / 100;
+    final hv = MediaQuery.of(context).size.height / 100;
+    final wv = MediaQuery.of(context).size.width / 100;
     return Container(
-      /*decoration: BoxDecoration(
-          color: Color(0xff191934),
-          image: DecorationImage(
-            image: AssetImage('assets/icons/souscription/fond_decran.png'),
-            fit: BoxFit.cover,
-          )
-      ),*/
       child: Scaffold(
-        //backgroundColor: Colors.transparent,
         body: ListView(
           children: <Widget>[
-            //SizedBox(height: hv*10),
             Stack(
               fit: StackFit.passthrough,
               children: <Widget>[
                 Container(
-                  /*decoration: BoxDecoration(
-                      image: DecorationImage(
-                        alignment: Alignment.topCenter,
-                        image: AssetImage('assets/images/bg3.png'),
-                        fit: BoxFit.cover,
-                      )
-                  ),*/
                     child: SizedBox(
                       height: hv * 30,
                       child: SizedBox(child:
@@ -94,11 +74,6 @@ class _LoginState extends State<Login> {
                       )),
                     )
                 ),
-                /*Column(
-                children: <Widget>[
-                  SizedBox(child: Image.asset('assets/images/logo.png'), width: wv*30,),
-                ],
-              ),*/
               ],
             ),
 
@@ -106,7 +81,7 @@ class _LoginState extends State<Login> {
             SizedBox(height: hv * 0.5),
             Center(child: Column(
               children: <Widget>[
-                Text("Connexion", style: TextStyle(fontSize: 45.0,
+                Text(DemoLocalizations.of(context).trans('connexion'), style: TextStyle(fontSize: 45.0,
                   color: Color(0xff191934),
                   fontFamily: 'Montez',
                   //fontWeight: FontWeight.w800,
@@ -124,10 +99,10 @@ class _LoginState extends State<Login> {
 
                     // Champ de texte du numéro
                     CustomTextField(
-                      maxLength: 9,
-                      hintText: 'Entrez votre numéro de téléphone',
+                      maxLength: 50,
+                      hintText: DemoLocalizations.of(context).trans('telephone'),
                       controller: _phoneController,
-                      emptyValidatorText: 'Entrez votre numéro de téléphone',
+                      emptyValidatorText: DemoLocalizations.of(context).trans('telephone'),
                       keyboardType: TextInputType.phone,
                       validator: _phoneFieldValidator,
                       icon: Icons.phone,
@@ -135,11 +110,11 @@ class _LoginState extends State<Login> {
                     ),
                     // Champ de texte du mot de passe
                     CustomPasswordField(
-                      hintText: 'Entrez votre mot de passe',
+                      hintText: DemoLocalizations.of(context).trans('mdp'),
                       keyboardType: TextInputType.text,
                       controller: _passwordController,
                       onSavedFunc: (value) => userPassword = value,
-                      emptyValidatorText: 'Entrez votre mot de passe',
+                      emptyValidatorText: DemoLocalizations.of(context).trans('mdp'),
                       validator: _passwordFieldValidator,
                       color: Colors.black45,
                     ),
@@ -151,7 +126,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: const EdgeInsets.only(left: 190.0, right: 10.0),
                           child: InkWell(onTap: _forgotPassword,
-                              child: Text("Mot de passe oublié",
+                              child: Text(DemoLocalizations.of(context).trans('mdp_oublie'),
                                 style: TextStyle(color: Color(0xffff0000),
                                     //fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.w700,
@@ -168,7 +143,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0, right: 200.0),
                           child: InkWell(onTap: _registerClicked,
-                              child: Text("Inscrivez-vous !",
+                              child: Text(DemoLocalizations.of(context).trans('inscrivez_vous'),
                                 style: TextStyle(color: Color(0xff191934),
                                     //fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.w700,
@@ -183,42 +158,21 @@ class _LoginState extends State<Login> {
 
                     _buttonState ?
 
-                    /*Column(
-                        children: <Widget>[
-                          Padding(padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                          child: TextFieldContainer(
-                            child: TextField()
-                          ),
-                          )
-                        ],
-                      ),*/
-
                     Column(
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
                           child: CustomButton(
                             color: Color(0xff191934),
-                            text: 'Valider',
+                            text: DemoLocalizations.of(context).trans('valider'),
                             textColor: Colors.white,
                             onPressed: () async {
-                              //authentication(context);
+                              //Navigator.pushNamed(context, '/home');
+                              authentication(context);
                             },
                           ),
                         ),
                         SizedBox(height: 3),
-                        /*Padding(
-                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                        child: CustomButton(
-                          color: Color(0xff039BE5),
-                          text: 'SOUSCRIPTION',
-                          textColor: Colors.white,
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/autoRegister');
-                            //Navigator.pushNamed(context, '/renewSubscription');
-                          },
-                        ),
-                      ),*/
                       ],
                     )
 
@@ -229,7 +183,7 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 20.0),
                     Center(
                       child: InkWell(onTap: _confidentiality,
-                          child: Text("Politique de confidentialité",
+                          child: Text(DemoLocalizations.of(context).trans('politique_confidentiality'),
                             style: TextStyle(color: Color(0xffff0000),
                                 //fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.w700,
@@ -248,7 +202,6 @@ class _LoginState extends State<Login> {
 
 
   // Fonction d'authentification
-
   authentication(BuildContext context) async {
     setState(() {
       _autovalidate = true;
@@ -266,6 +219,41 @@ class _LoginState extends State<Login> {
       print("Phone number: ${_phoneController
           .text} \nPassword: ${_passwordController.text}");
 
+      // Processus d'authentification à l'aide du service d'authentification
+
+      dynamic response = await AuthService.login(
+          phone: _phoneController.text, password: _passwordController.text, secret: "2020babyCARECustumerCode");
+
+      if(response.runtimeType == String){
+        _showDialogLogin(response);
+        setState(() {
+          _buttonState = true;
+        });
+        return;
+      }
+
+
+      if(response.statusCode == 200){
+        response = json.decode(response.body);
+        print(response);
+        // Sauvegarde des tokens dans le secure storage à l'aide du service de sauvegarde sécurisée
+        SecureStorage.tokenStorage(access_token: response["access_token"].toString());
+        //AuthService.savePhone(_phoneController.text);
+
+        //redirection vers la HomePage
+        Navigator.pushNamed(context, '/home', arguments: _phoneController.text);
+
+      } else if(response.statusCode == 500){
+        response = json.decode(response.body);
+        print(response);
+        _showDialogLogin(response["exception"]+ " " + response["message"]);
+      }
+      else{
+        response = json.decode(response.body);
+        print(response["error"]);
+        _showDialogLogin(response["error"]);
+      }
+
       setState(() {
         _buttonState = true;
       });
@@ -273,136 +261,114 @@ class _LoginState extends State<Login> {
     }
   }
 
-  //Fonction qui gère les Mots de passe oublié
-
+  //Lien des Mots de passe oublié
   _forgotPassword() {
-    Navigator.pushNamed(context, '/home');
+    Navigator.pushNamed(context, '/forgot_password');
   }
 
-// Fonction d'authentification
-
-  _passwordRecovery(BuildContext context) async {
-    setState(() {
-      _autovalidate2 = true;
-    });
-
-    if (_passwordRecoveryFormKey.currentState.validate()) {
-      print("Phone number: ${_phoneDialogController.text} \nNumber: ${_idNumberController.text}\nId Type: 1");
-
-      setState(() {
-        _button2State = true;
-      });
-    }
-    else {
-      setState(() {
-        _autovalidate2 = true;
-      });
-    }
-  }
-
+  //Lien d'inscription
   _registerClicked(){
     Navigator.pushNamed(context, '/register');
   }
 
   // Fonction de validation du mot de passe
-
   String _passwordFieldValidator(String value) {
     if (value.isEmpty) {
-      return "Entrez votre mot de passe";
+      return DemoLocalizations.of(context).trans('mdp');
     }
-    String p = "^[:;,\-@0-9a-zA-Zâéè'.\s]{5,5}\$";
+    String p = "^[:;,\-@0-9a-zA-Zâéè'.\s]";
     RegExp regExp = new RegExp(p);
     if (regExp.hasMatch(value)) {
       // So, the password is valid
       return null;
     }
     // The pattern of the password didn't match the regex above.
-    return 'Password must be 5 characters long';
+    return DemoLocalizations.of(context).trans('mdp_caracters_number');
   }
 
 
   //Fonction de validation du numéro de téléphone
-
   String _phoneFieldValidator(String value) {
     if (value.isEmpty) {
-      return "Entrez un numéro";
+      return DemoLocalizations.of(context).trans('telephone');
     }
-    String p = "^[:;,\-@0-9a-zA-Zâéè'.\s]{13}\$";
+    String p = "^[:;,\-@0-9a-zA-Zâéè'.\s]";
     RegExp regExp = new RegExp(p);
     if (regExp.hasMatch(value)) {
       // So, the phone nber is valid
       return null;
     }
     // The pattern of the phone nber didn't match the regex above.
-    return 'Phone number must be 13 characters long';
+    return DemoLocalizations.of(context).trans('phone_caracters_number');
   }
 
 
-  //boite de dialog pour les erreurs
-  void _showDialog(String response) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text('Information'),
-            content: new Text(response),
-            actions: <Widget>[
-              new RaisedButton(onPressed: () {
-                Navigator.of(context).pop();
-              })
-            ],
-          );
-        }
-    );
-  }
-
-  //boite de dialog pour les erreurs
-  void _showDialogForgotPassword(String response) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text('Information'),
-            content: new Text(response),
-            actions: <Widget>[
-              new RaisedButton(onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pushNamed(context, '/login');
-
-              })
-            ],
-          );
-        }
-    );
-  }
-
-
+  //Lien de confidentialité
   void _confidentiality() {
-    Navigator.pushNamed(context, '/register_step_final');
+    Navigator.pushNamed(context, '/confidentiality');
   }
+
+  //boite de dialog pour les erreurs
+  /*void _showDialog(String response) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text('Information'),
+            content: new Text(response),
+            actions: <Widget>[
+              new RaisedButton(onPressed: () {
+                Navigator.of(context).pop();
+              })
+            ],
+          );
+        }
+    );
+  }*/
+
   /*
-  void _confidentiality() {
-    Navigator.pushNamed(context, '/activation');
+   void _showDialog(String response) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: new Text('Information'),
+            content: new Text(response),
+            actions: <Widget>[
+              new RaisedButton(onPressed: () {
+                Navigator.of(context).pop();
+              })
+            ],
+          );
+        }
+    );
   }
    */
-}
 
-/*class TextFieldContainer extends StatelessWidget {
-  final Widget child;
-  const TextFieldContainer({
-    Key key,
-}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      width: size.width * 0.8,
-      decoration: BoxDecoration(
-        color: Color(0xff191934),
-        borderRadius: BorderRadius.circular(29),
-      ),
+  void _showDialogLogin(String response) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: new Text(DemoLocalizations.of(context).trans('connexion')),
+            content: new Text(response),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                  onPressed: (){
+                    Navigator.of(context).pop("Discard");
+                  },
+                isDestructiveAction: false,
+                isDefaultAction: true,
+                textStyle: TextStyle(),
+                child: Text("OK")
+              )
+            ],
+          );
+        }
     );
   }
-}*/
+
+
+}
+

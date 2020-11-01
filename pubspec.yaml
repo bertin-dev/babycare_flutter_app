@@ -41,11 +41,27 @@ dependencies:
   shared_preferences: ^0.5.6+3
   badges: ^1.1.0
   modal_bottom_sheet: ^0.2.2
-  country_code_picker: ^1.6.0
+  #country_code_picker: ^1.6.0
+  flutter_launcher_icons: "^0.8.0"
+  image: "^2.1.0"
+  flutter_launcher_name: "^0.0.1"
+  country_list_pick: ^1.0.0+3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  image_path: "assets/icons/souscription/logo1.png"
+  ios: true
+  adaptive_icon_background: "#191934"
+
+flutter_launcher_name:
+  name: "Uda"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,6 +78,8 @@ flutter:
   assets:
      - assets/icons/
      - assets/icons/souscription/
+     - assets/lang/fr.json
+     - assets/lang/en.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -75,10 +93,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+      - family: Montez
+        fonts:
+          - asset: assets/fonts/Montez-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

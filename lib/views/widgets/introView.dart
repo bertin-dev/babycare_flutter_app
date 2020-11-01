@@ -70,7 +70,7 @@ class IntroView extends StatelessWidget {
                             //color: Colors.red.withOpacity(0.12)
                         ),
                         child: Text(message,
-                            style: TextStyle(color: Colors.white)),
+                            style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
                       ),
                       SizedBox(height: hv*2,),
                       /*CustomButton(

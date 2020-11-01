@@ -1,11 +1,16 @@
 // Page de souscription
 import 'dart:io';
+import 'package:country_list_pick/country_list_pick.dart';
+import 'package:country_list_pick/country_selection_theme.dart';
+import 'package:country_list_pick/support/code_country.dart';
 import 'package:babycare_flutter_app/views/widgets/form/button.dart';
 import 'package:babycare_flutter_app/views/widgets/form/buttonNext.dart';
 import 'package:babycare_flutter_app/views/widgets/form/passwordField.dart';
 import 'package:babycare_flutter_app/views/widgets/form/textField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../main.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -23,7 +28,6 @@ class _RegisterState extends State<Register> {
   bool _autovalidate = false;
   bool isChecked = true;
   bool _buttonState = true;
-  String _language = 'default';
 
   @override
   void initState() {
@@ -44,14 +48,9 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    final hv = MediaQuery
-        .of(context)
-        .size
-        .height / 100;
-    final wv = MediaQuery
-        .of(context)
-        .size
-        .width / 100;
+    final hv = MediaQuery.of(context).size.height / 100;
+    final wv = MediaQuery.of(context).size.width / 100;
+    Size size = MediaQuery.of(context).size;
     return Container(
       /*decoration: BoxDecoration(
           color: Color(0xff191934),
@@ -64,7 +63,7 @@ class _RegisterState extends State<Register> {
         //backgroundColor: Colors.transparent,
         body: ListView(
           children: <Widget>[
-            //SizedBox(height: hv*10),
+            SizedBox(height: hv*10),
             Stack(
               fit: StackFit.passthrough,
               children: <Widget>[
@@ -77,12 +76,12 @@ class _RegisterState extends State<Register> {
                       )
                   ),*/
                     child: SizedBox(
-                      height: hv * 25,
+                      height: hv * 20,
                       child: SizedBox(child:
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 30.0, left: 90.0, right: 90.0),
-                        child: Image.asset('assets/icons/souscription/route.png', width: wv * 30,  /*
+                            top: 20.0, left: 0.0, right: 0.0),
+                        child: Image.asset('assets/icons/souscription/route.png', width: wv * 50,  /*
                       height: hv*10,*/),
                       )),
                     )
@@ -101,37 +100,26 @@ class _RegisterState extends State<Register> {
             Center(child: Column(
 
               children: <Widget>[
-                Row(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
 
-              Text("Veuillez entrer vos", style: TextStyle(fontSize: 15.0,
-                  color: Color(0xff191934),
-                  fontWeight: FontWeight.bold)),
-
-                  SizedBox(width: 1.0,),
-
-                  Text(" PARAMETRES ", style: TextStyle(fontSize: 15.0,
-                      color: Color(0xffF07E10),
-                      fontWeight: FontWeight.bold)),
-
-
-                  SizedBox(width: 1.0,),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('de géolocalisation',
-                            style: TextStyle(fontSize: 15.0,
+                        Text(DemoLocalizations.of(context).trans('veuillez_entrer_vos'), style: TextStyle(fontSize: 15.0,
                             color: Color(0xff191934),
-                            fontWeight: FontWeight.bold))
+                            fontWeight: FontWeight.bold)),
+                        Text(DemoLocalizations.of(context).trans('parametres'), style: TextStyle(fontSize: 15.0,
+                            color: Color(0xffe8551b),
+                            fontWeight: FontWeight.bold)),
                       ],
-                    )
+                    ),
+                    Text(DemoLocalizations.of(context).trans('de_geolocalisation'), style: TextStyle(fontSize: 15.0,
+                        fontWeight: FontWeight.bold)),
 
-
-
+                    SizedBox(height: 10.0,),
                 ],
                 ),
               ]
@@ -139,132 +127,98 @@ class _RegisterState extends State<Register> {
             )),
 
 
-            SizedBox(height: hv * 1),
+            SizedBox(height: hv * 5),
 
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(0.0),
               child: Form(
                 autovalidate: _autovalidate,
                 key: _registerFormKey,
                 child: Column(
                   children: <Widget>[
 
-                Column(crossAxisAlignment: CrossAxisAlignment
-                    .center, children: <Widget>[
+                    //liste deroulante des pays
+                    Container(
+                      //margin: EdgeInsets.symmetric(vertical: 10),
+                      //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: CountryListPick(
+                        appBar: AppBar(
+                          backgroundColor: Color(0xff191934),
+                          title: Text(DemoLocalizations.of(context).trans('choississez_votre_pays_de_residence')),
+                        ),
+                        // if you need custome picker use this
+                        // pickerBuilder: (context, CountryCode countryCode) {
+                        //   return Row(
+                        //     children: [
+                        //       Image.asset(
+                        //         countryCode.flagUri,
+                        //         package: 'country_list_pick',
+                        //       ),
+                        //       Text(countryCode.code),
+                        //       Text(countryCode.dialCode),
+                        //     ],
+                        //   );
+                        // },
+                        theme: CountryTheme(
+                          searchHintText: DemoLocalizations.of(context).trans('recherche'),
+                          searchText: DemoLocalizations.of(context).trans('recherche_par_pays'),
+                          alphabetSelectedTextColor: Color(0xff191934),
+                          alphabetTextColor: Color(0xff191934),
+                          alphabetSelectedBackgroundColor: Color(0xff191934),
+                          isShowFlag: true,
+                          isShowTitle: true,
+                          isShowCode: true,
+                          isDownIcon: true,
+                          showEnglishName: true,
+                        ),
+                        initialSelection: '+237',
+                        onChanged: (CountryCode code) {
+                          print(code.name);
+                          print(code.code);
+                          print(code.dialCode);
+                          print(code.flagUri);
+                        },
+                      ),
+                    ),
 
-                  //liste déroulante des pays
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 90.0),
-                    child: SizedBox(child:
-                    DropdownButton<String>(
-                      isExpanded: true,
-                      underline: Container( //margin: EdgeInsets.only(bottom: 10.0, top: 5),
-                        decoration: BoxDecoration(
-                          color: Color(0xff191934),
-                        ),
-                        child: SizedBox(height: 2.3,),
-                      ),
-                      icon: Icon(Icons.arrow_drop_down,
-                          color: Color(0xff191934)),
-                      items: [
-                        DropdownMenuItem<String>(
-                          child: Text('Cameroun',
-                              style: TextStyle(
-                                  fontWeight: FontWeight
-                                      .bold,
-                                  fontSize: 18.0,
-                                  color: Color(
-                                      0xff191934))),
-                          value: 'cameroun',
-                        ),
-                        DropdownMenuItem<String>(
-                          child: Text('Senegal',
-                              style: TextStyle(
-                                  fontWeight: FontWeight
-                                      .bold,
-                                  fontSize: 15.0,
-                                  color: Color(
-                                      0xff191934))),
-                          value: 'sn',
-                        ),
-                        DropdownMenuItem<String>(
-                          child: Text('Gabon',
-                              style: TextStyle(
-                                  fontWeight: FontWeight
-                                      .bold,
-                                  fontSize: 18.0,
-                                  color: Color(
-                                      0xff191934))),
-                          value: 'gabon',
-                        ),
-                        DropdownMenuItem<String>(
-                          child: Text(
-                              'Tchad',
-                              style: TextStyle(
-                                  fontWeight: FontWeight
-                                      .bold,
-                                  fontSize: 13.0,
-                                  color: Color(
-                                      0xff191934))),
-                          value: 'tchad',
-                        ),
-                      ],
-                      onChanged: (String value) {
-                        setState(() {
-                          //_idNumberValue = value;
-                        });
-                        // print(_idNumberValue);
-                      },
-                      hint: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0),
-                        child: Text("pays de résidence"),
-                      ),
-                      //value: _idNumberValue
-                    ),
-                      width: 200,
-                    ),
-                  ),
-                      ]),
+                    SizedBox(height: hv * 2),
 
                     // Champ de texte du numéro
-
                     CustomTextField(
-                      //maxLength: 9,
-                      hintText: 'Entrez votre numéro de téléphone',
+                      maxLength: 9,
+                      hintText: DemoLocalizations.of(context).trans('telephone'),
                       controller: _phoneController,
-                      emptyValidatorText: 'Entrez un numéro de téléphone',
+                      emptyValidatorText: DemoLocalizations.of(context).trans('telephone'),
                       keyboardType: TextInputType.phone,
                       validator: _phoneFieldValidator,
                       icon: Icons.phone,
                       labelColor: Colors.black45,
                     ),
 
-                    SizedBox(height: 10),
+                    SizedBox(height: 100),
 
                     // Bouton de soumission
 
                     _buttonState ?
 
-                    /*Column(
-                        children: <Widget>[
-                          Padding(padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                          child: TextFieldContainer(
-                            child: TextField()
-                          ),
-                          )
-                        ],
-                      ),*/
-
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
                           child: CustomButtonNext(
                             color: Color(0xff191934),
-                            text: 'Suivant',
+                            text: DemoLocalizations.of(context).trans('suivant'),
                             textColor: Colors.white,
                             onPressed: () async {
+                              Navigator.pushNamed(context, '/activation');
                               //authentication(context);
                             },
                           ),

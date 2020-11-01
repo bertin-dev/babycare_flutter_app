@@ -4,6 +4,8 @@ import 'package:babycare_flutter_app/views/widgets/homeCommands.dart';
 import 'package:babycare_flutter_app/views/widgets/homeCommandsBadge.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 class Home extends StatefulWidget {
 
   @override
@@ -44,29 +46,31 @@ class _HomeState extends State<Home> {
                       )
                   ),*/
                 child: SizedBox(
-                  height: hv * 40,
+                  height: hv * 50,
 
                   child: SizedBox(child:
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 30.0, left: 90.0, right: 90.0),
+                        top: 1.0, left: 20.0, right: 20.0),
                     child: Center(child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Bienvenue", style: TextStyle(fontSize: 45.0,
+                        Text(DemoLocalizations.of(context).trans('bienvenue'), style: TextStyle(fontSize: 45.0,
                           color: Color(0xff191934),
                           fontFamily: 'Montez',
                           //fontWeight: FontWeight.w800,
                         )),
                         SizedBox(height: 10.0,),
-                        Text("Uda", style: TextStyle(fontSize: 80.0,
+                        Text(DemoLocalizations.of(context).trans('babycare_flutter_app'), style: TextStyle(fontSize: 80.0,
                           color: Color(0xffe8551b),
                           fontWeight: FontWeight.bold,
                         )),
-                        Text("Poser le bon geste au bon moment c'est sauver une vie", style: TextStyle(fontSize: 15.0,
+                        Text(DemoLocalizations.of(context).trans('titre_accueil'), style: TextStyle(fontSize: 15.0,
                           color: Colors.grey,
                           fontWeight: FontWeight.w800,
                         ), textAlign: TextAlign.center,),
-                        SizedBox(height: 10.0,),
+                        SizedBox(height: 1.0,),
                       ],
                     )),
                   ),),
@@ -76,7 +80,7 @@ class _HomeState extends State<Home> {
         ),
 
 
-        SizedBox(height: hv * 1),
+        //SizedBox(height: hv * 1),
 
         Container(
           margin: const EdgeInsets.only(left:20.0, right: 20.0),
@@ -86,7 +90,7 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: Column(children: <Widget>[
                   HomeCommands(
-                      label: "Prendre en charge une urgence",
+                      label: DemoLocalizations.of(context).trans('prendre_en_charge_une_urgence'),
                       function: () {
                         Navigator.pushNamed(context, '/withraw');
                       },
@@ -95,7 +99,7 @@ class _HomeState extends State<Home> {
                         height: 45.0,))
                   ),
                   HomeCommands(
-                      label: "Prendre un rendez-vous",
+                      label: DemoLocalizations.of(context).trans('prendre_un_rendez_vous'),
                       function: () {
                         Navigator.pushNamed(context, '/reload');
                       },
@@ -108,7 +112,7 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: Column(children: <Widget>[
                   HomeCommands(
-                      label: "Signaler une urgence",
+                      label: DemoLocalizations.of(context).trans('signaler_une_urgence'),
                       function: () {
                         Navigator.pushNamed(context, '/payInvoice');
                       },
@@ -117,7 +121,7 @@ class _HomeState extends State<Home> {
                         height: 45.0,))
                   ),
                   HomeCommands(
-                      label: "Ma Santé en main",
+                      label: DemoLocalizations.of(context).trans('ma_sante_en_main'),
                       function: () {
                         Navigator.pushNamed(context, '/debit');
                       },
@@ -131,7 +135,7 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: Column(children: <Widget>[
                   HomeCommandsBadge(
-                      label: "Mon médecin traitant",
+                      label: DemoLocalizations.of(context).trans('mon_medecin_traitant'),
                       function: () {
                         Navigator.pushNamed(context, '/verifyAccount');
                       },
@@ -140,7 +144,7 @@ class _HomeState extends State<Home> {
                         height: 45.0,))
                   ),
                   HomeCommandsBadge(
-                      label: "Forum",
+                      label: DemoLocalizations.of(context).trans('forum'),
                       function: () {
                         Navigator.pushNamed(context, '/qr');
                       },

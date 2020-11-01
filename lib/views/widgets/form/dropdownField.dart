@@ -26,11 +26,16 @@ class _CustomDropDownFieldState extends State<CustomDropDownField> {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Color(0xffDCDCDC),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: <Widget>[
+          Icon(
+            Icons.wc,
+            color: Color(0xff191934),
+            //size: 25.0,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: SizedBox(child: Text(widget.label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934)),),),

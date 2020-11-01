@@ -2,10 +2,20 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:babycare_flutter_app/views/widgets/form/buttonNext.dart';
 import 'package:babycare_flutter_app/views/widgets/form/dropdownField.dart';
 import 'package:babycare_flutter_app/views/widgets/form/passwordField.dart';
 import 'package:babycare_flutter_app/views/widgets/form/textField.dart';
+
+import '../main.dart';
+
+
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  runApp(RegisterStepFinal());
+}
 
 class RegisterStepFinal extends StatefulWidget {
   @override
@@ -26,10 +36,13 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
   String appBarMenuValue;
   bool _autovalidate = false;
   String userPassword;
+  DateTime pickedDate;
+
 
   @override
   void initState() {
     super.initState();
+    pickedDate = DateTime.now();
   }
 
 
@@ -37,6 +50,7 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
   Widget build(BuildContext context) {
     final hv = MediaQuery.of(context).size.height / 100;
     final wv = MediaQuery.of(context).size.width / 100;
+    Size size = MediaQuery.of(context).size;
     return Container(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -139,7 +153,7 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
             Center(child: Column(
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.only(left:10.0, right: 10.0),
+                    //padding: const EdgeInsets.only(left:10.0, right: 10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -147,15 +161,15 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("Veuillez entrer vos ", style: TextStyle(fontSize: 15.0,
+                            Text(DemoLocalizations.of(context).trans('veuillez_entrer_vos'), style: TextStyle(fontSize: 15.0,
                                 color: Color(0xff191934),
                                 fontWeight: FontWeight.bold)),
-                            Text(" INFORMATIONS ", style: TextStyle(fontSize: 15.0,
+                            Text(DemoLocalizations.of(context).trans('information'), style: TextStyle(fontSize: 15.0,
                                 color: Color(0xffe8551b),
                                 fontWeight: FontWeight.bold)),
                           ],
                         ),
-                        Text("personnelles", style: TextStyle(fontSize: 15.0,
+                        Text(DemoLocalizations.of(context).trans('personnelles'), style: TextStyle(fontSize: 15.0,
                             fontWeight: FontWeight.bold)),
 
                         SizedBox(height: 10.0,),
@@ -181,29 +195,54 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
                     // Champ de texte du nom
                     CustomTextField(
                         maxLength: 9,
-                        hintText: 'Entrez votre nom',
+                        hintText: DemoLocalizations.of(context).trans('entrez_votre_nom'),
                         controller: _nameController,
-                        emptyValidatorText: 'Entrez votre nom',
+                        emptyValidatorText: DemoLocalizations.of(context).trans('entrez_votre_nom'),
                         keyboardType: TextInputType.text,
-                        validator: (str) => str.isEmpty ? 'Veuillez Insérer votre nom' : null,
+                        validator: (str) => str.isEmpty ? DemoLocalizations.of(context).trans('entrez_votre_nom') : null,
                         icon: Icons.person,
                         labelColor: Color(0xff191934)
                     ),
+                    
+                    //champs date de naissance
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: Color(0xffDCDCDC),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          /*Padding(
+                            padding: const EdgeInsets.only(left: 0.0),
+                            child: SizedBox(child: Text("Ecrivez votre date de naissance", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934)),),),
+                          ),*/
+                          ListTile(
+                            title: Text( DemoLocalizations.of(context).trans('entre_votre_date_de_naissance') + ": ${pickedDate.day}/${pickedDate.month}/${pickedDate.year}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934)),),
+                            trailing: Icon(Icons.keyboard_arrow_down),
+                            onTap: _pickDate,
+                          ),
+                        ],
+                      ),
+                    ),
 
                     CustomDropDownField(
-                      label: "Choississez votre sexe",
+                      label: DemoLocalizations.of(context).trans('choississez_votre_sexe'),
                       onChangedFunc: (String value) {
                         setState(() {
                           _genderValue = value;
                         });
-                      }, hintText: "Votre sexe",
+                      }, hintText: DemoLocalizations.of(context).trans('votre_sexe'),
                       items: [
                         DropdownMenuItem<String>(
-                          child: Text('Masculin', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934))),
+                          child: Text(DemoLocalizations.of(context).trans('masculin'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934))),
                           value: 'male',
                         ),
                         DropdownMenuItem<String>(
-                          child: Text('Feminin', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934))),
+                          child: Text(DemoLocalizations.of(context).trans('feminin'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Color(0xff191934))),
                           value: 'female',
                         )
                       ],
@@ -212,11 +251,11 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
 
 
                     CustomPasswordField(
-                      hintText: 'Entrez votre mot de passe',
+                      hintText: DemoLocalizations.of(context).trans('mdp'),
                       keyboardType: TextInputType.text,
                       controller: _passwordController,
                       onSavedFunc: (value) => userPassword = value,
-                      emptyValidatorText: 'Entrez votre mot de passe',
+                      emptyValidatorText: DemoLocalizations.of(context).trans('mdp'),
                       validator: _passwordFieldValidator,
                       color: Colors.black45,
                     ),
@@ -240,7 +279,7 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
                           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
                           child: CustomButtonNext(
                             color: Color(0xff191934),
-                            text: 'Terminé',
+                            text: DemoLocalizations.of(context).trans('terminer'),
                             textColor: Colors.white,
                             onPressed: () async {
                               //authentication(context);
@@ -267,6 +306,22 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
         ),
       ),
     );
+  }
+
+
+  _pickDate() async{
+    DateTime date = await showDatePicker(
+        context: context,
+        firstDate: DateTime(DateTime.now().year-50),
+        lastDate: DateTime(DateTime.now().year+50),
+        initialDate: pickedDate
+    );
+
+    if(date != null){
+      setState(() {
+        pickedDate = date;
+      });
+    }
   }
 
 
@@ -371,6 +426,9 @@ class _RegisterStepFinalState extends State<RegisterStepFinal> {
         }
     );
   }
+
+
+
 
 
 

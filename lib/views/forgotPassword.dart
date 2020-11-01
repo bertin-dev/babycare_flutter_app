@@ -1,44 +1,31 @@
 
-import 'dart:io';
+import 'dart:async';
 import 'package:babycare_flutter_app/views/widgets/form/buttonNext.dart';
-import 'package:babycare_flutter_app/views/widgets/form/passwordField.dart';
+import 'package:babycare_flutter_app/views/widgets/form/textField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
 
-class Activation extends StatefulWidget {
+class ForgotPassword extends StatefulWidget {
   @override
-  _ActivationState createState() => _ActivationState();
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class _ActivationState extends State<Activation> {
+class _ForgotPasswordState extends State<ForgotPassword> {
 
   final _registerFormKey = GlobalKey<FormState>();
-
-  TextEditingController _passwordController = new TextEditingController();
-
-  String userPassword;
-  bool _autovalidate = false;
-  bool isChecked = true;
+  TextEditingController _phoneController = new TextEditingController();
   bool _buttonState = true;
+  String appBarMenuValue;
+  bool _autovalidate = false;
+  String userPassword;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void checkConnection() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-      }
-    }
-    on SocketException catch (_) {
-      print('not connected');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,20 +33,73 @@ class _ActivationState extends State<Activation> {
     final wv = MediaQuery.of(context).size.width / 100;
     return Container(
       child: Scaffold(
+        backgroundColor: Colors.white,
+        /*appBar: AppBar(
+          title: Text("Enregistrement"),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected: (String value){
+                setState(() {
+                  appBarMenuValue = value;
+                });
+                Navigator.pushNamed(context, '/register_step_final');
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: "apropos",
+                  child: Text("A propos"),
+                ),
+                PopupMenuItem(
+                  value: "tutoriel",
+                  child: Text("tutoriel"),
+                ),
+                PopupMenuItem(
+                  value: "moncompte",
+                  child: Text("Mon compte"),
+                ),
+              ],
+            )
+          ],
+        ),*/
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          /*iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),*/
+          title: Text("Sample"),
+          centerTitle: true,
+          elevation: 0.0,
+          /*actions: <Widget>[
+            new IconButton(
+              icon: new Image.asset('assets/icons/souscription/fleche_gauche.png'),
+              tooltip: 'Closes application',
+              onPressed: () => exit(0),
+            ),
+          ],*/
+          leading: IconButton(
+            icon: Image.asset('assets/icons/souscription/fleche_gauche.png'),
+            tooltip: 'OnBackPressed',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: ListView(
           children: <Widget>[
-            SizedBox(height: hv*7),
+            SizedBox(height: hv*2),
             Stack(
               fit: StackFit.passthrough,
               children: <Widget>[
                 Container(
                     child: SizedBox(
-                      height: hv * 25,
+                      height: hv * 20,
                       child: SizedBox(child:
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 30.0, left: 90.0, right: 90.0),
-                        child: Image.asset('assets/icons/souscription/fingerprint.png', width: wv * 30,  /*
+                            top: 20.0, left: 0.0, right: 0.0),
+                        child: Image.asset('assets/icons/souscription/contact.png', width: wv * 50,  /*
                       height: hv*10,*/),
                       )),
                     )
@@ -73,7 +113,7 @@ class _ActivationState extends State<Activation> {
             Center(child: Column(
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.only(left:0.0, right: 0.0),
+                    //padding: const EdgeInsets.only(left:10.0, right: 10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -81,27 +121,19 @@ class _ActivationState extends State<Activation> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(DemoLocalizations.of(context).trans('uda2'), style: TextStyle(fontSize: 20.0,
+                            Text(DemoLocalizations.of(context).trans('veuillez_entrer_votre'), style: TextStyle(fontSize: 15.0,
                                 color: Color(0xff191934),
                                 fontWeight: FontWeight.bold)),
-                            Text(DemoLocalizations.of(context).trans('a_envoye_un'), style: TextStyle(fontSize: 15.0,
-                                color: Color(0xff191934),
-                                fontWeight: FontWeight.bold)),
-                            Text(DemoLocalizations.of(context).trans('code'), style: TextStyle(fontSize: 15.0,
+                            Text(DemoLocalizations.of(context).trans('numero_de'), style: TextStyle(fontSize: 15.0,
                                 color: Color(0xffe8551b),
-                                fontWeight: FontWeight.bold)),
-                            Text(DemoLocalizations.of(context).trans('au'), style: TextStyle(fontSize: 15.0,
                                 fontWeight: FontWeight.bold)),
                           ],
                         ),
-                        Text(DemoLocalizations.of(context).trans('numero_de_telephone'), style: TextStyle(fontSize: 15.0,
+                        Text(DemoLocalizations.of(context).trans('telephoneUppercase'), style: TextStyle(fontSize: 15.0,
+                            color: Color(0xffe8551b),
                             fontWeight: FontWeight.bold)),
 
                         SizedBox(height: 10.0,),
-
-                        Text("+237 691 520 972", style: TextStyle(fontSize: 15.0,
-                            color: Color(0xffff0000),
-                            fontWeight: FontWeight.bold)),
                       ],
                     ),
                   )
@@ -120,19 +152,24 @@ class _ActivationState extends State<Activation> {
                 child: Column(
                   children: <Widget>[
 
-                    // Champ de texte du code d'activation
-                    CustomPasswordField(
-                      hintText: DemoLocalizations.of(context).trans('code_authentification'),
-                      keyboardType: TextInputType.text,
-                      controller: _passwordController,
-                      onSavedFunc: (value) => userPassword = value,
-                      emptyValidatorText: DemoLocalizations.of(context).trans('code_authentification'),
-                      validator: _passwordFieldValidator,
-                      color: Colors.black45,
+
+                    // Champ de texte du numéro
+                    CustomTextField(
+                      maxLength: 9,
+                      hintText: DemoLocalizations.of(context).trans('telephone'),
+                      controller: _phoneController,
+                      emptyValidatorText: DemoLocalizations.of(context).trans('telephone'),
+                      keyboardType: TextInputType.phone,
+                      validator: _phoneFieldValidator,
+                      icon: Icons.phone,
+                      labelColor: Colors.black45,
                     ),
 
 
-                    SizedBox(height: 100),
+                    SizedBox(height: 100.0),
+
+
+                    //SizedBox(height: 100),
 
                     // Bouton de soumission
 
@@ -143,20 +180,15 @@ class _ActivationState extends State<Activation> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text(DemoLocalizations.of(context).trans('renvoyer_le_code_dauthentification'),
-                          style: TextStyle(color: Color(0xffff0000),
-                              //fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.0),),
                         SizedBox(height: 3),
                         Padding(
                           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
                           child: CustomButtonNext(
                             color: Color(0xff191934),
-                            text: DemoLocalizations.of(context).trans('confirmer'),
+                            text: DemoLocalizations.of(context).trans('suivant'),
                             textColor: Colors.white,
                             onPressed: () async {
-                              Navigator.pushNamed(context, '/register_step_final');
+                              Navigator.pushNamed(context, '/activation_forgot_password');
                               //authentication(context);
                             },
                           ),
@@ -185,54 +217,32 @@ class _ActivationState extends State<Activation> {
 
 
   // Fonction d'authentification
+  _register (BuildContext context) async {
 
-  authentication(BuildContext context) async {
+    print("Phone: ${_phoneController.text}\n");
     setState(() {
       _autovalidate = true;
     });
 
-
-    //REDIRECTION VERS LA PAGE D'ACCUEIL
     if (_registerFormKey.currentState.validate()) {
-
       setState(() {
         _buttonState = false;
       });
 
-      // Test pour m'assurer que les valeurs sont bien recupérées
-
-      // Processus d'authentification à l'aide du service d'authentification
-
-      /*dynamic response = await AuthService.login(
-          phone: _phoneController.text, password: _passwordController.text, secret: "Cnqactz7vnCGKBB7E12yN+17a+2Q/+d7PTkv1jOgcus=");
-
-      if(response.statusCode == 200){
-        response = json.decode(response.body);
-        print(response);
-        // Sauvegarde des tokens dans le secure storage à l'aide du service de sauvegarde sécurisée
-        AuthService.saveToken(response["access_token"].toString());
-        AuthService.savePhone(_phoneController.text);
-
-        //SecureStorage.tokenStorage(access: response["access_token"].toString(), refresh: response["refresh_token"].toString());
-
-        //redirection vers la HomePage
-        Navigator.pushNamed(context, '/home', arguments: _phoneController.text);
-
-      } else if(response.statusCode == 500){
-        response = json.decode(response.body);
-        print(response);
-        _showDialog(response["exception"]+ " " + response["message"]);
-      }
-      else{
-        response = json.decode(response.body);
-        print(response["data"]["error"]);
-        _showDialog(response["data"]["error"]);
-      }*/
-
+      Timer(Duration(seconds: 3),
+              (){
+            setState(() {
+              _buttonState = true;
+            });
+          }
+      );
       setState(() {
-        _buttonState = true;
+        _buttonState = false;
       });
 
+      setState(() {
+        _autovalidate = true;
+      });
     }
   }
 
@@ -307,6 +317,7 @@ class _ActivationState extends State<Activation> {
         }
     );
   }
+
 
 
 

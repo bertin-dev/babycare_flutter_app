@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
-class Activation extends StatefulWidget {
+class ActivationForgotPassword extends StatefulWidget {
   @override
-  _ActivationState createState() => _ActivationState();
+  _ActivationForgotPasswordState createState() => _ActivationForgotPasswordState();
 }
 
-class _ActivationState extends State<Activation> {
+class _ActivationForgotPasswordState extends State<ActivationForgotPassword> {
 
   final _registerFormKey = GlobalKey<FormState>();
 
@@ -81,7 +81,7 @@ class _ActivationState extends State<Activation> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(DemoLocalizations.of(context).trans('uda2'), style: TextStyle(fontSize: 20.0,
+                            Text(DemoLocalizations.of(context).trans('babycare_flutter_app'), style: TextStyle(fontSize: 20.0,
                                 color: Color(0xff191934),
                                 fontWeight: FontWeight.bold)),
                             Text(DemoLocalizations.of(context).trans('a_envoye_un'), style: TextStyle(fontSize: 15.0,
@@ -156,7 +156,7 @@ class _ActivationState extends State<Activation> {
                             text: DemoLocalizations.of(context).trans('confirmer'),
                             textColor: Colors.white,
                             onPressed: () async {
-                              Navigator.pushNamed(context, '/register_step_final');
+                              Navigator.pushNamed(context, '/reset_password');
                               //authentication(context);
                             },
                           ),

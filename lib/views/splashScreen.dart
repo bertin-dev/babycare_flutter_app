@@ -1,8 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 //Page de chargement
+
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(SplashScreen());
+}
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -23,6 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget build(BuildContext context) {
+    /// ENFORCE DEVICE ORIENTATION PORTRAIT ONLY
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     final hv =MediaQuery.of(context).size.height/100;
     final wv =MediaQuery.of(context).size.width/100;
     return Container(
