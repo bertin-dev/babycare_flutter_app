@@ -81,7 +81,7 @@ class _ActivationForgotPasswordState extends State<ActivationForgotPassword> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(DemoLocalizations.of(context).trans('babycare_flutter_app'), style: TextStyle(fontSize: 20.0,
+                            Text(DemoLocalizations.of(context).trans('uda2'), style: TextStyle(fontSize: 20.0,
                                 color: Color(0xff191934),
                                 fontWeight: FontWeight.bold)),
                             Text(DemoLocalizations.of(context).trans('a_envoye_un'), style: TextStyle(fontSize: 15.0,

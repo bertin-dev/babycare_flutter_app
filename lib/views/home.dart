@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
                           //fontWeight: FontWeight.w800,
                         )),
                         SizedBox(height: 10.0,),
-                        Text(DemoLocalizations.of(context).trans('babycare_flutter_app'), style: TextStyle(fontSize: 80.0,
+                        Text(DemoLocalizations.of(context).trans('uda'), style: TextStyle(fontSize: 80.0,
                           color: Color(0xffe8551b),
                           fontWeight: FontWeight.bold,
                         )),
